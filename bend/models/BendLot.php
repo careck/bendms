@@ -21,7 +21,7 @@ class BendLot extends DbObject {
     }
 
     /**
-     * returns owners whicha are not deleted and startdate &lt; today &lt; enddate
+     * returns owners which are not deleted and startdate &lt; today &lt; enddate
      * 
      * @return array(BendLotOwners)
      */
@@ -32,7 +32,7 @@ class BendLot extends DbObject {
         }
 
         return array_filter($owners, function($owner) {
-            return $owner->d_start <= time() && (empty($owner->d_end) || $owner->d_end >= time());
+            return $owner->isCurrent();
         });
     }
 
@@ -47,4 +47,5 @@ class BendLot extends DbObject {
         }
     }
 
+    
 }

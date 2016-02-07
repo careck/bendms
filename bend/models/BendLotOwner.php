@@ -6,7 +6,16 @@ class BendLotOwner extends DbObject {
     public $user_id;
     public $d_start;
     public $d_end;
-    public $is_deleted;
+
+    public $address1;
+    public $address2;
+    public $town;
+    public $postcode;
+    public $state;
+    public $country;
+    
+    public $notes;
+    
 
     function getFullname() {
         if (!empty($this->user_id)) {
@@ -20,5 +29,9 @@ class BendLotOwner extends DbObject {
     
     function getContact() {
     	return $this->getUser()->getContact();
+    }
+    
+    function isCurrent() {
+    	return $this->d_start <= time() && (empty($this->d_end) || $this->d_end >= time());
     }
 }
