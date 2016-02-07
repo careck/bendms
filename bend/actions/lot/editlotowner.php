@@ -27,6 +27,11 @@ function editlotowner_GET(Web $w) {
 	
 	$form["Owner Contact"] = array(
 			array(
+					empty($lotOwner->user_id) ?
+					array("Select Existing User", "select", "user_id", null, $w->Auth->getUsers()) :
+					array("User","static","",$lotOwner->getContact()->getFullName())
+			),
+			array(
 					array("First Name", "text", "firstname", $contact->firstname),
 					array("Last Name", "text", "lastname", $contact->lastname),
 					array("Email", "text", "email", $contact->email),
@@ -50,7 +55,7 @@ function editlotowner_GET(Web $w) {
 			),
 	);
 	
-	$w->out(Html::multiColForm($form, "/bend-lot/editlotowner/{$lotId}/{$lotOwnerId}", "POST", "Save"));
+	$w->ctx("form",Html::multiColForm($form, "/bend-lot/editlotowner/{$lotId}/{$lotOwnerId}", "POST", "Save"));
 
 }
 
@@ -65,13 +70,16 @@ function editlotowner_POST(Web $w) {
 	$contact = new Contact($w);
 	if (!empty($lotOwnerId)) {
 		$lotOwner = $w->Bend->getBendLotOwnerForId($lotOwnerId);
-		$user = $lotOwner->getUser();
-		$contact = $user->getContact();
 	}
 	
 	$lotOwner->fill($_POST);
 	$lotOwner->bend_lot_id = $lotId;
 	$lotOwner->insertOrUpdate();
+	
+	if ($lotOwner->user_id) {
+		$user = $lotOwner->getUser();
+		$contact = $user->getContact();
+	}
 	
 	$contact->fill($_POST);
 	$contact->insertOrUpdate();

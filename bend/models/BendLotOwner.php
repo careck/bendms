@@ -28,7 +28,8 @@ class BendLotOwner extends DbObject {
     }
     
     function getContact() {
-    	return $this->getUser()->getContact();
+    	$user = $this->getUser(); 
+    	return !empty($user) ? $user->getContact() : null;
     }
     
     function isCurrent() {
