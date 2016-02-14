@@ -23,7 +23,7 @@ function editlot_POST(Web $w) {
 	list($id) = $w->pathMatch("id");
 	$lot = new BendLot($w);
 	if (!empty($id)) {
-		$lot = $w->Bend->getLotById($id);
+		$lot = $w->Bend->getLotForId($id);
 	}
 	
 	$lot->fill($_POST);

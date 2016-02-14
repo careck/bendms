@@ -6,6 +6,7 @@ function showlot_GET(Web $w) {
 	$lot = $w->Bend->getLotForId($id);
 	if (empty($lot)) $w->error("Lot {$id} does not exist");
 	
+	History::add("Bend Lot: ".$lot->lot_number);
 	$lotTable = array();
 	$lotTable["Lot"] = array(
 			array(
