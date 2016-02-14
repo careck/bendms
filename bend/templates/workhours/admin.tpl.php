@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($workperiod as $wp): 
+            <?php foreach ($workperiods as $wp): 
             	$budget = $wp->getHoursBudget();
             	$logged = $wp->getTotalHoursLogged();
             	$profit = $logged - $budget;?>
