@@ -22,14 +22,14 @@
 <div class="row">
   <div class="small-6 large-2 columns"></div>
   <div class="small-6 large-8 columns">
-      <a href="/bend/electricityadmin/" class="button expand large">Electricity Admin</a>
+      <a href="/bend-electricity/admin/" class="button expand large">Electricity Admin</a>
   </div>
   <div class="small-12 large-2 columns"></div>
 </div>
 <div class="row">
   <div class="small-6 large-2 columns"></div>
   <div class="small-6 large-8 columns">
-      <a href="/bend/workhoursadmin" class="button expand large">Workhour Admin</a>
+      <a href="/bend-workhours/admin" class="button expand large">Workhours Admin</a>
   </div>
   <div class="small-12 large-2 columns"></div>
 </div>

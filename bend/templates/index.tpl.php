@@ -19,6 +19,7 @@
   </div>
   <div class="small-12 large-2 columns"></div>
 </div>
+<?php if ($w->Auth->hasRole("bend_admin")):?>
 <div class="row">
   <div class="small-6 large-2 columns"></div>
   <div class="small-6 large-8 columns">
@@ -26,3 +27,4 @@
   </div>
   <div class="small-12 large-2 columns"></div>
 </div>
+<?php endif;?>
