@@ -39,7 +39,14 @@ class BendService extends DbService {
     	return $this->getObject("BendWorkPeriod",$id);
     }
     
-    
+    function getWorkPeriodForDate($timestamp) {
+    	$wps = $this->getAllWorkPeriods();
+    	foreach ($wps as $wp) {
+    		if ($wp->is_open == 1 && $wp->d_start <= $timestamp && $wp->d_end >= $timestamp) {
+    			return $wp;
+    		}
+    	}
+    }
     /**
      * Return all work (not deleted)
      *
@@ -94,5 +101,20 @@ class BendService extends DbService {
     
     function getTopLevelWorkCategories() {
     	return $this->getObjects("BendWorkCategory",["is_deleted"=>0,"parent_id"=>null]);
+    }
+    
+    function getAllOccupants() {
+    	return $this->getObjects("BendHouseholdOccupant",["is_deleted"=>0]);
+    }
+    
+    function getOccupantUsers() {
+    	$occupants = $this->getAllOccupants();
+    	$users = [];
+    	if (!empty($occupants)) {
+    		foreach ($occupants as $oc) {
+    			$users[] = $this->Auth->getUser($oc->user_id);
+    		}
+    	}
+    	return $users;
     }
 }
