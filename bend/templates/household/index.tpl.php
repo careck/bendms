@@ -28,7 +28,7 @@
                         ?>
                     </td>
 					<td>
-						<?php echo Html::b("/bend-household/show/" . $household->id, "Details");?>
+						<?php echo Html::b("/bend-household/show/" .$household->getLot()->id.'/'. $household->id, "Details");?>
 					</td>
                 </tr>
             <?php endforeach; ?>
