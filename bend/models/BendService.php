@@ -87,4 +87,12 @@ class BendService extends DbService {
     		return $this->getObjects("BendWorkEntry",["is_deleted"=>0, "bend_workperiod_id"=>$id]);
     	}
     }
+    
+    function getWorkCategoryForId($id) {
+    	return $this->getObject("BendWorkcategory",$id);
+    }
+    
+    function getTopLevelWorkCategories() {
+    	return $this->getObjects("BendWorkCategory",["is_deleted"=>0,"parent_id"=>null]);
+    }
 }

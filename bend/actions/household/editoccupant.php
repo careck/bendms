@@ -25,8 +25,8 @@ function editOccupant_GET(Web $w) {
 					array("Occupant To","date","d_end",!empty($oc->d_end) ? formatDate($oc->d_end) : ""),
 			),
 			array(
-					array("Pays Electricity?", "select", "pays_electricity", $oc->pays_electricity,booleanNoYesForSelect()),
-					array("Does Workhours?", "select", "does_workhours", $oc->does_workhours,booleanNoYesForSelect()),
+					array("Pays Electricity?", "select", "pays_electricity", $oc->pays_electricity,lookupForSelect($w, "YesNo")),
+					array("Does Workhours?", "select", "does_workhours", $oc->does_workhours,lookupForSelect($w, "YesNo")),
 			),
 	);
 	$form["Occupant Contact"] = array(

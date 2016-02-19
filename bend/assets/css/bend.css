@@ -1,0 +1,16 @@
+@CHARSET "ISO-8859-1";
+
+.bend-cat-1 {
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.bend-cat-2 {
+	font-weight: bold;
+	font-size: 100%;
+}
+
+.bend-cat-3 {
+	font-weight: normal;
+	font-size: 100%;
+}

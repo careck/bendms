@@ -20,8 +20,8 @@ function edit_GET(Web $w) {
 	$form["Household"] = array(
 			array(
 					array("Streetnumber", "text", "streetnumber", $household->streetnumber),
-					array("Is CHL", "select", "is_chl", $household->is_chl,booleanNoYesForSelect()),
-					array("Is Occupied", "select", "is_occupied", $household->is_occupied,booleanNoYesForSelect()),
+					array("Is CHL", "select", "is_chl", $household->is_chl,lookupForSelect($w, "YesNo")),
+					array("Is Occupied", "select", "is_occupied", $household->is_occupied,lookupForSelect($w, "YesNo")),
 	));
 	
 	$w->setLayout(null);
