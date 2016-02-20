@@ -10,7 +10,7 @@ class BendWorkEntry extends DbObject {
     
     public function insert($force_validation=true) {
     	if (empty($this->bend_workperiod_id)) {
-    		$wp = $this->Bend->getWorkPeriodForDate($this->d_date);
+    		$wp = $this->Bend->getWorkPeriodForDate($this->d2Time($this->d_date));
     		if (!empty($wp)) {
     			$this->bend_workperiod_id = $wp->id;
     		}

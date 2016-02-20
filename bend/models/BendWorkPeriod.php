@@ -13,7 +13,7 @@ class BendWorkPeriod extends DbObject {
     }
     
     function getWorkhours() {
-    	return $this->Bend->getWorkhoursForPeriod($this);
+    	return $this->Bend->getWorkentriesForPeriod($this);
     }
     
     function getNumberOfMonths() {
@@ -59,6 +59,7 @@ class BendWorkPeriod extends DbObject {
     			$hours += $wh->hours;
     		}
     	}
+    	return $hours;
     }
 }
 

@@ -1,5 +1,6 @@
 <?php
 function enter_GET(Web $w) {
+	History::add("Enter Workhours");
 	$form["Work Hours"]=array(
 			array(
 					$w->Auth->hasRole("bend_admin") ?
@@ -32,7 +33,7 @@ function enter_POST(Web $w) {
 		$we->bend_work_category_id = $_POST['category_3']; 
 	} else if (!empty($_POST['category_2'])) {
 		$we->bend_work_category_id = $_POST['category_2']; 
-	} if (!empty($_POST['category_1'])) {
+	} else if (!empty($_POST['category_1'])) {
 		$we->bend_work_category_id = $_POST['category_1']; 
 	}
 	

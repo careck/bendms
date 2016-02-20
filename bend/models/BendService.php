@@ -42,7 +42,7 @@ class BendService extends DbService {
     function getWorkPeriodForDate($timestamp) {
     	$wps = $this->getAllWorkPeriods();
     	foreach ($wps as $wp) {
-    		if ($wp->is_open == 1 && $wp->d_start <= $timestamp && $wp->d_end >= $timestamp) {
+    		if (!$wp->is_closed  && $wp->d_start <= $timestamp && $timestamp <= $wp->d_end) {
     			return $wp;
     		}
     	}
@@ -86,7 +86,7 @@ class BendService extends DbService {
      * @param mixed $period either an object of BendWorkPeriod or integer of an id
      * @return array of BendWorkEntry objects
      */
-    function getWorkhoursForPeriod($period) {
+    function getWorkentriesForPeriod($period) {
     	if (empty($period)) {
     		return null;
     	} else {
