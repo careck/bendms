@@ -80,6 +80,15 @@ class BendService extends DbService {
     	return $this->getWorkhours($user,$period);
     }    
 
+    function getWorkEntries($period=null) {
+    	$where = ["is_deleted"=>0];
+    	if (!empty($period)) {
+    		$id = is_a($period, "BendWorkPeriod") ? $period->id : $period;
+    		$where["bend_workperiod_id"]=$id;
+    	}
+    	return $this->getObjects("BendWorkEntry",$where);
+    }
+    
     /**
      * Return all work entries for this period
      *
@@ -90,8 +99,7 @@ class BendService extends DbService {
     	if (empty($period)) {
     		return null;
     	} else {
-    		$id = is_a($period, "BendWorkPeriod") ? $period->id : $period;
-    		return $this->getObjects("BendWorkEntry",["is_deleted"=>0, "bend_workperiod_id"=>$id]);
+    		return $this->getWorkEntries($period);
     	}
     }
     

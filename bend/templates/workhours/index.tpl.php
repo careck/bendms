@@ -15,14 +15,7 @@
 <div class="row">
   <div class="small-6 large-2 columns"></div>
   <div class="small-6 large-8 columns">
-      <a href="/bend-workhours/current" class="button expand large">Current Period</a>
-  </div>
-  <div class="small-12 large-2 columns"></div>
-</div>
-<div class="row">
-  <div class="small-6 large-2 columns"></div>
-  <div class="small-6 large-8 columns">
-      <a href="/bend-workhours/history" class="button expand large">History</a>
+      <a href="/bend-workhours/list" class="button expand large">List Workhours</a>
   </div>
   <div class="small-12 large-2 columns"></div>
 </div>

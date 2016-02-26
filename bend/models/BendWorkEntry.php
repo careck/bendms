@@ -17,4 +17,12 @@ class BendWorkEntry extends DbObject {
     	}
     	parent::insert($force_validation);
     }
+    
+    public function getFullCategoryTitle() {
+    	return $this->Bend->getWorkCategoryForId($this->bend_work_category_id)->title;
+    }
+    
+    public function getUser() {
+    	return $this->Auth->getUser($this->user_id);
+    }
 }
