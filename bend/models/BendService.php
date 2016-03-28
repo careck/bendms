@@ -39,6 +39,10 @@ class BendService extends DbService {
     	return $this->getObject("BendWorkPeriod",$id);
     }
     
+    function getWorkEntryForId($id) {
+    	return $this->getObject("BendWorkEntry",$id);
+    }
+    
     function getWorkPeriodForDate($timestamp) {
     	$wps = $this->getAllWorkPeriods();
     	foreach ($wps as $wp) {
@@ -64,7 +68,7 @@ class BendService extends DbService {
     		$id = is_a($period, "BendWorkPeriod") ? $period->id : $period;
     		$where['bend_workperiod_id']=$id;
     	}
-    	return $this->getObjects("BendWorkEntry",$where);
+    	return $this->getObjects("BendWorkEntry",$where,false,true,"d_date desc");
     }
     
     /**

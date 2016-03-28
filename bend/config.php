@@ -8,7 +8,7 @@ Config::set('bend', array(
         "Example Data" => "ExampleData",
     ),
     'widgets' => array(),
-    'hooks' => array('core_dbobject', 'bend'),
+    'hooks' => array('core_dbobject', 'core_web','bend'),
     'processors' => array(),
 ));
 

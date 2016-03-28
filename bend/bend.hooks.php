@@ -1,17 +1,11 @@
 <?php
 
 /**
- * This is an example hook function. It will be called from within the 
- * DbObject::delete() method, if performed on an ExampleData object.
- * 
- * Read DbObject::delete() and other DbObject methods to find out where
- * you can hook into.
- * 
- * To make this hook active, it has to be declared in this module's config.php.
+ * inject font awesome and our css for every action in the bend module
  * 
  * @param Web $w
- * @param ExampleData $object
  */
-function example_core_dbobject_after_delete_ExampleData(Web $w, ExampleData $object) {
-    // don't do anything here unless you have to!
+function bend_core_web_after_get_bend(Web $w) {
+	$w->enqueueStyle(["uri" => "/modules/bend/assets/css/bend.css", "weight" => 500]);
+	$w->enqueueStyle(["uri" => "/modules/bend/assets/css/font-awesome.min.css", "weight" => 501]);
 }

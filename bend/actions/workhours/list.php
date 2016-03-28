@@ -8,7 +8,7 @@ function list_GET(Web $w) {
 		$user = $w->Auth->user();
 	}
 	
-	$workentries = $w->Bend->getWorkEntries($periodid);
+	$workentries = $w->Bend->getWorkhoursForUser($user,$periodid);
 	
 	$w->ctx("user",$user);
 	$w->ctx("workentries",$workentries);

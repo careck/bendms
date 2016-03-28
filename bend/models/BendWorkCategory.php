@@ -9,6 +9,20 @@ class BendWorkCategory extends DbObject {
     }
     
     /**
+     * This returns a list with this category as the last object, with the
+     * parents and granparent objects preceding.
+     * 
+     * @return array of BendWorkCategory objects
+     */
+    function getPath() {
+    	if (empty($this->parent_id)) {
+    		return [$this];
+    	} else {
+    		$parent = $this->Bend->getWorkCategoryForId($this->parent_id);
+    		return array_merge($parent->getPath(),[$this]);
+    	}
+    }
+    /**
      * This returns either only work entries in this
      * category or all entries from child categories for
      * a given period.

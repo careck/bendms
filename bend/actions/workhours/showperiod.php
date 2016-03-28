@@ -9,6 +9,5 @@ function showperiod_GET(Web $w) {
 	History::add("Work Period: ".formatDate($wp->d_start));
 	$w->ctx("workperiod",$wp);
 	$w->ctx("categories", $w->Bend->getTopLevelWorkCategories());
-	$w->enqueueStyle(["uri" => "/modules/bend/assets/css/bend.css", "weight" => 500]);
 	
 }
