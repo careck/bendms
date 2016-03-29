@@ -129,4 +129,30 @@ class BendService extends DbService {
     	}
     	return $users;
     }
+    
+    function getUsersForHousehold($household) {
+    	$occupants = $household->getAllOccupants();
+    	$users = [];
+    	if (!empty($occupants)) {
+    		foreach ($occupants as $oc) {
+    			$users[] = $this->Auth->getUser($oc->user_id);
+    		}
+    	}
+    	return $users;
+    }
+    
+    function getWorkEntriesForHousehold($household, $period=null) {
+    	$entries = [];
+    	$occupants = $household->getAllOccupants();
+    	if (empty($occupants)) return null;
+    	foreach ($occupants as $occupant) {
+    		if ($occupant->does_workhours) {
+	    		$household_entries = $this->getWorkhoursForUser($occupant->getUser(),$period);
+	    		if (!empty($household_entries)) {
+	    			$entries = array_merge($entries,$household_entries);
+	    		}
+    		}
+    	}
+    	return $entries;
+    }
 }

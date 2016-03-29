@@ -72,3 +72,24 @@
 </li>
 <?php endforeach;?>
 </ol>
+<h2>Breakdown by Household</h2>
+<?php foreach($households as $household):?>
+<?php 
+$users_and_entries = []; // this will contain a structure of [user_id,hours]
+$total_hours = 0;
+$workentries = $w->Bend->getWorkEntriesForHousehold($household,$workperiod);
+if (!empty($workentries)) {
+	foreach ($workentries as $entry) {
+		$users_and_entries[$entry->user_id] = empty($users_and_entries[$entry->user_id]) ? $entry->hours : $users_and_entries[$entry->user_id] + $entry->hours;
+		$total_hours += $entry->hours;
+	}
+}
+?>
+<h3>Household #<?php echo $household->streetnumber?> - Total: <?php echo $total_hours?> hours</h3>
+<?php foreach ($users_and_entries as $user_id => $hours):?>
+<?php 
+$user = $w->Auth->getUser($user_id);
+echo Html::a("/bend-workhours/list/{$user_id}/{$workperiod->id}",$user->getFullName().": ".$hours)?><br/>
+<?php endforeach;?>
+
+<?php endforeach;?>

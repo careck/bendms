@@ -33,4 +33,12 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+<?php else:?>
+<div class="row">
+  <div class="small-6 large-2 columns"></div>
+  <div class="small-6 large-8 columns">
+	You have no work hours recorded.
+  </div>
+  <div class="small-12 large-2 columns"></div>
+</div>
 <?php endif;?>

@@ -16,7 +16,7 @@ function editworkentry_GET(Web $w) {
 					$w->Auth->hasRole("bend_admin") ?
 						array("User",  "select", "user_id", $workentry->user_id, $w->Bend->getOccupantUsers()) :
 						array("User",  "static", "", $w->Auth->getUser($workentry->user_id)->getFullName()),
-					array("Date", "date", "d_date", $workentry->d_date),
+					array("Date", "date", "d_date", formatDate($workentry->d_date)),
 					array("Hours","text","hours",$workentry->hours),
 			),
 			array(
@@ -28,7 +28,7 @@ function editworkentry_GET(Web $w) {
 					array("Description","text","description",$workentry->description),
 			),
 	);
-	$w->ctx("form",Html::multiColForm($form, "/bend-workhours/editworkentry", "POST", "Save"));
+	$w->ctx("form",Html::multiColForm($form, "/bend-workhours/editworkentry/{$workentry_id}", "POST", "Save"));
 	
 }
 
