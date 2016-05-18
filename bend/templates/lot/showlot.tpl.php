@@ -59,7 +59,7 @@
 
 <hr/>
 <h2>Households</h2>
-<?php echo Html::box("/bend-lot/edithousehold/".$lot->id, "Add Household", true); ?>
+<?php echo Html::box("/bend-household/edit/".$lot->id, "Add Household", true); ?>
 <?php if (!empty($households)):?>
 <table width="80%">
 	<thead>

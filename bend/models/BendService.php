@@ -108,7 +108,7 @@ class BendService extends DbService {
     }
     
     function getWorkCategoryForId($id) {
-    	return $this->getObject("BendWorkcategory",$id);
+    	return $this->getObject("BendWorkCategory",$id);
     }
     
     function getTopLevelWorkCategories() {
