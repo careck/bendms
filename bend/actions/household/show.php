@@ -10,7 +10,7 @@ function show_GET($w) {
 	$household = $w->Bend->getHouseholdForId($householdid);
 	if (empty($household)) $w->error("Household {$householdid} does not exist");
 	
-	History::add("Bend Household: ".$household->street_number);
+	History::add("Bend Household: ".$household->streetnumber);
 	
 	$lotTable = array();
 	$lotTable["Household"] = array(
@@ -20,7 +20,10 @@ function show_GET($w) {
 			array(
 					array("Street Number", "static", "", $household->streetnumber),
 					array("Is CHL?", "static", "", $household->is_chl?"yes":"no"),
-					array("Is Occupied?", "static", "", $household->is_occupied?"yes":"no")),
+					array("Is Occupied?", "static", "", $household->is_occupied?"yes":"no"),
+					array("Number of Occupants", "static", "", $household->num_occupants),
+						
+			),
 	);
 	
 	$w->ctx("lot",$lot);

@@ -14,8 +14,9 @@ function editworkentry_GET(Web $w) {
 	$form["Work Hours"]=array(
 			array(
 					$w->Auth->hasRole("bend_admin") ?
-						array("User",  "select", "user_id", $workentry->user_id, $w->Bend->getOccupantUsers()) :
-						array("User",  "static", "", $w->Auth->getUser($workentry->user_id)->getFullName()),
+						array("Who did the work?",  "select", "user_id", $workentry->user_id, $w->Bend->getOccupantUsers()) :
+						array("Who did the work?",  "static", "", $w->Auth->getUser($workentry->user_id)->getFullName()),
+					array("Who to credit to",  "select", "attributed_user_id", $workentry->attributed_user_id, $w->Bend->getOccupantUsers()),
 					array("Date", "date", "d_date", formatDate($workentry->d_date)),
 					array("Hours","text","hours",$workentry->hours),
 			),
@@ -33,7 +34,14 @@ function editworkentry_GET(Web $w) {
 }
 
 function editworkentry_POST(Web $w) {
-	$we = new BendWorkEntry($w);
+	list($workentry_id) = $w->pathMatch("id");
+	if (empty($workentry_id)) {
+		$w->error("Missing an ID");
+	}
+	$we = $w->Bend->getWorkEntryForId($workentry_id);
+	if (empty($we)) {
+		$w->error("No work entry found for this id: ".$workentry_id);
+	}
 	$we->fill($_POST);
 	if (empty($we->user_id)) {
 		$we->user_id = $w->Auth->user()->id;
@@ -48,7 +56,7 @@ function editworkentry_POST(Web $w) {
 	}
 	
 	// TODO check work period, etc.
-	$we->insert();
+	$we->update();
 	
 	$w->msg("Work hours recorded","/bend-workhours/list");
 }

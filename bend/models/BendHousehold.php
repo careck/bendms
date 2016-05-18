@@ -7,6 +7,7 @@ class BendHousehold extends DbObject {
     public $is_chl;
     public $is_occupied;
     public $is_deleted;
+    public $num_occupants;
 
     public function getAllOccupants() {
     	return $this->getObjects("BendHouseholdOccupant",["bend_household_id"=>$this->id, "is_deleted"=>0]);

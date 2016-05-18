@@ -7,7 +7,7 @@ function edit_GET(Web $w) {
 	$lot = $w->Bend->getLotForId($lotId);
 	$household = new BendHousehold($w);
 	if (!empty($householdid)) {
-		$houshold = $w->Bend->getHouseholdForId($householdid);
+		$household = $w->Bend->getHouseholdForId($householdid);
 	}
 
 	$form["Lot"]=array(
@@ -22,17 +22,18 @@ function edit_GET(Web $w) {
 					array("Streetnumber", "text", "streetnumber", $household->streetnumber),
 					array("Is CHL", "select", "is_chl", $household->is_chl,lookupForSelect($w, "YesNo")),
 					array("Is Occupied", "select", "is_occupied", $household->is_occupied,lookupForSelect($w, "YesNo")),
+					array("Number of Occupants", "text", "num_occupants", $household->num_occupants),
 	));
 	
 	$w->setLayout(null);
-	$w->out(Html::multiColForm($form, "/bend-household/edit/{$lotId}/{$householdid}", "POST", "Save"));
+	$w->out(Html::multiColForm($form, "/bend-household/edit/{$lotId}/{$household->id}", "POST", "Save"));
 
 }
 
 function edit_POST(Web $w) {
 	list($lotId,$householdid) = $w->pathMatch("lotId","householdid");
 	if (empty($lotId)) {
-		$w->out("no lot id provide"); return;
+		$w->out("no lot id provided"); return;
 	}
 	$lot = $w->Bend->getLotForId($lotId);
 	$household = new BendHousehold($w);
@@ -44,5 +45,5 @@ function edit_POST(Web $w) {
 	$household->bend_lot_id = $lotId;
 	$household->insertOrUpdate();
 	
-	$w->msg("Household updated","/bend-household/edit/{$lotId}/{$householdid}");
+	$w->msg("Household updated","/bend-household/show/{$lot->id}/{$household->id}");
 }

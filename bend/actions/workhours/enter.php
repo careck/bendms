@@ -4,8 +4,9 @@ function enter_GET(Web $w) {
 	$form["Work Hours"]=array(
 			array(
 					$w->Auth->hasRole("bend_admin") ?
-						array("User",  "select", "user_id", $w->Auth->user()->id, $w->Bend->getOccupantUsers()) :
-						array("User",  "static", "", $w->Auth->user()->getFullName()),
+						array("Who did the work?",  "select", "user_id", $w->Auth->user()->id, $w->Bend->getOccupantUsers()) :
+						array("Who did the work?",  "static", "", $w->Auth->user()->getFullName()),
+					array("Who to credit to",  "select", "attributed_user_id", $w->Auth->user()->id, $w->Bend->getOccupantUsers()),
 					array("Date", "date", "d_date"),
 					array("Hours","text","hours"),
 			),
@@ -37,6 +38,7 @@ function enter_POST(Web $w) {
 		$we->bend_work_category_id = $_POST['category_1']; 
 	}
 	
+	print_r($we);exit;
 	// TODO check work period, etc.
 	$we->insert();
 	

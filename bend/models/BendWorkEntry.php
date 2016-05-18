@@ -2,11 +2,17 @@
 class BendWorkEntry extends DbObject {
     
     public $bend_workperiod_id;
-    public $user_id;
+    
+    //The user who entered the work ours/
+    public $user_id; 
+    
     public $d_date;
     public $hours;
     public $description;
     public $bend_work_category_id;
+    
+    // the user who should benefit from those hours
+    public $attributed_user_id;
     
     public function insert($force_validation=true) {
     	if (empty($this->bend_workperiod_id)) {
@@ -27,5 +33,9 @@ class BendWorkEntry extends DbObject {
     
     public function getUser() {
     	return $this->Auth->getUser($this->user_id);
+    }
+    
+    public function getAccredited() {
+    	return $this->Auth->getUser($this->attributed_user_id);
     }
 }

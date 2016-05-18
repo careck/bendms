@@ -3,8 +3,17 @@
   <div class="small-6 large-8 columns">
       <a href="/bend-workhours/" class="button expand large">Workhours</a>
   </div>
-  <div class="small-12 large-2 columns"></div>
+  <div class="small-6 large-2 columns"></div>
 </div>
+
+<div class="row">
+  <div class="small-6 large-2 columns"></div>
+  <div class="small-6 large-8 columns" style="text-align: center;">
+      <h2>Workhours for <?php echo $user->getFullName()?></h2>
+  </div>
+  <div class="small-6 large-2 columns"></div>
+</div>
+
 <?php if (!empty($workentries)): ?>
     <table width="80%">
         <thead>
@@ -12,7 +21,8 @@
                 <th>Date</th>
                 <th>Category</th>
                 <th>Description</th>
-                <th>Person</th>
+                <th>Who did the work?</th>
+                <th>Work credited to</th>
                 <th>Hours</th>
                 <th>Actions</th>
             </tr>
@@ -24,6 +34,7 @@
                     <td><?php echo $wp->getFullCategoryTitle()?></td>
                     <td><?php echo $wp->description?>
                     <td><?php echo $wp->getUser()->getFullName()?></td>
+                    <td><?php echo $wp->getAccredited() ? $wp->getAccredited()->getFullName() : ""?></td>
                     <td><?php echo $wp->hours?>
                     </td>
 					<td>
@@ -31,6 +42,13 @@
 					</td>
                 </tr>
             <?php endforeach; ?>
+                <tr>
+                    <td colspan="7" style="text-align: center; font-size: 1.5em">
+                    	Total Hours Worked for this Period: 
+                    	<b><?php echo $total_worked?></b>. Accredited to self: <b><?php echo $total_accredited?></b>
+                    </td>
+                </tr>
+            
         </tbody>
     </table>
 <?php else:?>

@@ -1,5 +1,5 @@
 <h1>Household #<?php echo $household->streetnumber?></h1>
-<?php echo Html::box("/bend-household/edit/".$household->id, "Edit Household", true); ?>
+<?php echo Html::box("/bend-household/edit/{$household->bend_lot_id}/".$household->id, "Edit Household", true); ?>
 <div class="row-fluid small-12">
 <?php echo $table?>
 </div>
