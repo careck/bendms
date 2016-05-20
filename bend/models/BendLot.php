@@ -43,7 +43,7 @@ class BendLot extends DbObject {
      */
     function getAllHouseholds() {
         if (!empty($this->id)) {
-            return $this->getObjects("BendHousehold", ["is_deleted" => 0, "bend_lot_id" => $this->id]);
+            return $this->getObjects("BendHousehold", ["is_deleted" => 0, "bend_lot_id" => $this->id],false,true,["streetnumber asc"]);
         }
     }
 

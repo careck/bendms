@@ -5,7 +5,7 @@ class BendWorkCategory extends DbObject {
     public $description;
     
     function getChildren() {
-    	return $this->getObjects("BendWorkCategory",["is_deleted"=>0,"parent_id"=>$this->id]);
+    	return $this->getObjects("BendWorkCategory",["is_deleted"=>0,"parent_id"=>$this->id],false,true,['title asc']);
     }
     
     /**

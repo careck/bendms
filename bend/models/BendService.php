@@ -112,11 +112,11 @@ class BendService extends DbService {
     }
     
     function getTopLevelWorkCategories() {
-    	return $this->getObjects("BendWorkCategory",["is_deleted"=>0,"parent_id"=>null]);
+    	return $this->getObjects("BendWorkCategory",["is_deleted"=>0,"parent_id"=>null],false,true,["title asc"]);
     }
     
     function getAllOccupants() {
-    	return $this->getObjects("BendHouseholdOccupant",["is_deleted"=>0]);
+    	return $this->getObjects("BendHouseholdOccupant",["is_deleted"=>0,"does_workhours"=>1]);
     }
     
     function getOccupantUsers() {
@@ -127,6 +127,9 @@ class BendService extends DbService {
     			$users[] = $this->Auth->getUser($oc->user_id);
     		}
     	}
+    	usort($users,function ($a, $b) {
+    		return strcmp($a->getSelectOptionTitle(),$b->getSelectOptionTitle());
+    	});
     	return $users;
     }
     
@@ -138,6 +141,9 @@ class BendService extends DbService {
     			$users[] = $this->Auth->getUser($oc->user_id);
     		}
     	}
+    	usort($users,function ($a, $b) {
+    		return strcmp($a->firstname,$b->firstname);
+    	});
     	return $users;
     }
     
