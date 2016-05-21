@@ -8,7 +8,7 @@
 class BendService extends DbService {
 
     function getAllLots() {
-        return $this->getObjects("BendLot", array("is_deleted" => 0));
+        return $this->getObjects("BendLot", ["is_deleted" => 0],false, true,["lot_number asc"]);
     }
 
     function getLotForId($id) {
@@ -16,7 +16,7 @@ class BendService extends DbService {
     }
 
     function getAllHouseholds() {
-        return $this->getObjects("BendHousehold", array("is_deleted" => 0));
+        return $this->getObjects("BendHousehold", ["is_deleted" => 0],false, true,["streetnumber asc"]);
     }
 
     function getHouseholdForId($id) {
@@ -32,7 +32,7 @@ class BendService extends DbService {
     }
     
     function getAllWorkPeriods() {
-    	return $this->getObjects("BendWorkPeriod",["is_deleted"=>0],null,false,"d_start");
+    	return $this->getObjects("BendWorkPeriod",["is_deleted"=>0],null,false,["d_start asc"]);
     }
     
     function getWorkPeriodForId($id) {
@@ -68,7 +68,7 @@ class BendService extends DbService {
     		$id = is_a($period, "BendWorkPeriod") ? $period->id : $period;
     		$where['bend_workperiod_id']=$id;
     	}
-    	return $this->getObjects("BendWorkEntry",$where,false,true,"d_date desc");
+    	return $this->getObjects("BendWorkEntry",$where,false,true,["d_date desc"]);
     }
     
     /**
@@ -115,12 +115,21 @@ class BendService extends DbService {
     	return $this->getObjects("BendWorkCategory",["is_deleted"=>0,"parent_id"=>null],false,true,["title asc"]);
     }
     
-    function getAllOccupants() {
-    	return $this->getObjects("BendHouseholdOccupant",["is_deleted"=>0,"does_workhours"=>1]);
+    function getAllOccupants($does_workhours=false) {
+    	$where["is_deleted"] = 0;
+    	if ($does_workhours) {
+    		$where["does_workhours"] = 1;
+    	}
+    	return $this->getObjects("BendHouseholdOccupant",$where);
     }
     
+    /**
+     * Returns only those occupant users that do workhours
+     * 
+     * @return User[]
+     */
     function getOccupantUsers() {
-    	$occupants = $this->getAllOccupants();
+    	$occupants = $this->getAllOccupants(true);
     	$users = [];
     	if (!empty($occupants)) {
     		foreach ($occupants as $oc) {

@@ -1,5 +1,5 @@
 <?php
-function editOccupant_GET(Web $w) {
+function editoccupant_GET(Web $w) {
 	list($householdid, $occupantid) = $w->pathMatch("a","b");
 	if (empty($householdid)) $w->error("Need a household ID");
 	
@@ -50,7 +50,7 @@ function editOccupant_GET(Web $w) {
 	
 }
 
-function editOccupant_POST(Web $w) {
+function editoccupant_POST(Web $w) {
 	list($householdid,$occupantid) = $w->pathMatch("a","b");
 	if (empty($householdid)) {
 		$w->out("no household id provide"); return;

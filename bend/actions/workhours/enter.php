@@ -38,7 +38,7 @@ function enter_POST(Web $w) {
 		$we->bend_work_category_id = $_POST['category_1']; 
 	}
 	
-	print_r($we);exit;
+	//print_r($we);exit;
 	// TODO check work period, etc.
 	$we->insert();
 	

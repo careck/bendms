@@ -4,9 +4,9 @@
     <table width="80%">
         <thead>
             <tr>
-                <th width="10">Lot Number</th>
                 <th width="10">Street Number</th>
                 <th width="10">CHL</th>
+                <th width="10">Occupied?</th>
                 <th>Current Occupants</th>
                 <th>Actions</th>
             </tr>
@@ -14,9 +14,9 @@
         <tbody>
             <?php foreach ($households as $household): ?>
                 <tr>
-                    <td><?php echo $household->getLot()->lot_number?></td>
                     <td><?php echo $household->streetnumber?></td>
                     <td><?php echo $household->is_chl ? "CHL" : ""?></td>
+                    <td><?php echo $household->is_occupied ? "yes" : ""?></td>
                     <td>
                         <?php
                         $occupants = $household->getCurrentOccupants();
