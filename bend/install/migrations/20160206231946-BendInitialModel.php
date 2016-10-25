@@ -106,7 +106,7 @@ class BendInitialModel extends CmfiveMigration {
 			->addIdColumn('bend_workperiod_id')
 			->addIdColumn('user_id')
 			->addDateColumn('d_date')
-			->addIntegerColumn('hours')
+			->addDecimalColumn('hours')
 			->addIdColumn('bend_work_category_id')
 			->addCmfiveParameters()
 			->create();

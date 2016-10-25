@@ -13,7 +13,7 @@
 <p>On this page you can record the Work Contribution Hours you do for Bend and list
 all work hours which you have previously entered.</p>
 <p>Please click on this link for the 
-<a href="http://bend.org.au/wp-content/uploads/2016/01/Work-Contributions-Policy-Oct-14-edit.pdf">The full WCH Policy</a>.</p>
+<a href="http://bend.org.au/wp-content/uploads/2016/09/Work-Contributions-Policy-August-2016.pdf">The current draft WCH Policy</a>.</p>
 <p>Please record the time you worked under the categories of the focus group that
 wanted this work done. Do not include work that was done for Bend on some
 other arrangement, such as a work contract, or meeting time that does not
