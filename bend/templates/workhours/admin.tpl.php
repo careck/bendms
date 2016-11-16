@@ -33,6 +33,7 @@
                     </td>
 					<td>
 						<?php echo Html::b("/bend-workhours/showperiod/" . $wp->id, "Details");?>
+                        <?php echo Html::box("/bend-workhours/editperiod/$wp->id", "Edit", true); ?>
 					</td>
                 </tr>
             <?php endforeach; ?>

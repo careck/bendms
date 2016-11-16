@@ -35,4 +35,15 @@ class BendHouseholdOccupant extends DbObject {
     function getWorkhours($period = null) {
     	return $this->Bend->getWorkhoursForUser($this->user_id,$period);
     }
+
+    /**
+     * Return all work entries which were attributed for this household occupant
+     * 
+     * @param mixed $period either an object of BendWorkPeriod or integer of an id
+     * @return array of BendWorkEntry objects
+     */
+    function getWorkhoursAttributed($period = null) {
+        return $this->Bend->getAttributedWorkhoursForUser($this->user_id,$period);
+    }
+
 }

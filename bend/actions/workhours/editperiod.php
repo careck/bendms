@@ -13,7 +13,7 @@ function editperiod_GET(Web $w){
 			),
 			array(
 					array("Monthly Person Hours","text","monthly_person_hours",$period->monthly_person_hours),
-					array("Is Closed?","select", "is_closed", $period->is_closed,booleanNoYesForSelect()),
+					array("Is Closed?","select", "is_closed", $period->is_closed,[["Yes", "1"], ["No","0"]]),
 			),
 	);
 		

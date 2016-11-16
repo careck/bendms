@@ -80,7 +80,7 @@ $total_hours = 0;
 $workentries = $w->Bend->getWorkEntriesForHousehold($household,$workperiod);
 if (!empty($workentries)) {
 	foreach ($workentries as $entry) {
-		$users_and_entries[$entry->user_id] = empty($users_and_entries[$entry->user_id]) ? $entry->hours : $users_and_entries[$entry->user_id] + $entry->hours;
+		$users_and_entries[$entry->attributed_user_id] = empty($users_and_entries[$entry->attributed_user_id]) ? $entry->hours : $users_and_entries[$entry->attributed_user_id] + $entry->hours;
 		$total_hours += $entry->hours;
 	}
 }

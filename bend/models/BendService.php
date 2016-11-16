@@ -70,6 +70,27 @@ class BendService extends DbService {
     	}
     	return $this->getObjects("BendWorkEntry",$where,false,true,["d_date desc"]);
     }
+
+    /**
+     * Return all work (not deleted)
+     *
+     * @param mixed $period either an object of BendWorkPeriod or integer of an id
+     * @param mixed $user either an object of User or integer of an id
+     * @return array of BendWorkEntry objects
+     */
+    function getAttributedWorkhours($user = null, $period = null) {
+        $where = ['is_deleted'=>0];
+        if (!empty($user)) {
+            $userid = is_a($user,"User") ? $user->id : $user;
+            $where['attributed_user_id']=$userid;
+        }
+        if (!empty($period)) {
+            $id = is_a($period, "BendWorkPeriod") ? $period->id : $period;
+            $where['bend_workperiod_id']=$id;
+        }
+        return $this->getObjects("BendWorkEntry",$where,false,true,["d_date desc"]);
+    }
+
     
     /**
      * Return all work entries for this user
@@ -83,6 +104,20 @@ class BendService extends DbService {
     	}
     	return $this->getWorkhours($user,$period);
     }    
+
+    /**
+     * Return all work entries for this user
+     *
+     * @param mixed $period either an object of BendWorkPeriod or integer of an id
+     * @return array of BendWorkEntry objects
+     */
+    function getAttributedWorkhoursForUser($user, $period = null) {
+        if (empty($user)) {
+            return null;
+        }
+        return $this->getAttributedWorkhours($user,$period);
+    }    
+
 
     function getWorkEntries($period=null) {
     	$where = ["is_deleted"=>0];
@@ -162,7 +197,7 @@ class BendService extends DbService {
     	if (empty($occupants)) return null;
     	foreach ($occupants as $occupant) {
     		if ($occupant->does_workhours) {
-	    		$household_entries = $this->getWorkhoursForUser($occupant->getUser(),$period);
+	    		$household_entries = $this->getAttributedWorkhoursForUser($occupant->getUser(),$period);
 	    		if (!empty($household_entries)) {
 	    			$entries = array_merge($entries,$household_entries);
 	    		}

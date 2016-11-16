@@ -9,12 +9,21 @@
 <div class="row">
   <div class="small-6 large-2 columns"></div>
   <div class="small-6 large-8 columns" style="text-align: center;">
-      <h2>Workhours for <?php echo $user->getFullName()?></h2>
+      <h2>Workperiod <?php echo $workPeriod->getSelectOptionTitle()?></h2>
+      <h2><?php echo $user->getFullName()?></h2>
   </div>
   <div class="small-6 large-2 columns"></div>
 </div>
 
+
 <?php if (!empty($workentries)): ?>
+    <div class="row">
+      <div class="small-6 large-2 columns"></div>
+      <div class="small-6 large-8 columns" style="text-align: center;">
+          <h3>Workhours done</h3>
+      </div>
+      <div class="small-6 large-2 columns"></div>
+    </div>
     <table width="80%">
         <thead>
             <tr>
@@ -30,7 +39,7 @@
         <tbody>
             <?php foreach ($workentries as $wp):?> 
                 <tr>
-                    <td><?php echo formatDate($wp->d_date)?></td>
+                    <td><?php echo formatDate($wp->d_date,"d/m/Y",true)?></td>
                     <td><?php echo $wp->getFullCategoryTitle()?></td>
                     <td><?php echo $wp->description?>
                     <td><?php echo $wp->getUser()->getFullName()?></td>
@@ -51,12 +60,51 @@
             
         </tbody>
     </table>
-<?php else:?>
-<div class="row">
-  <div class="small-6 large-2 columns"></div>
-  <div class="small-6 large-8 columns">
-	You have no work hours recorded.
-  </div>
-  <div class="small-12 large-2 columns"></div>
-</div>
+<?php endif;?>
+
+
+<?php if (!empty($workentries_attributed)): ?>
+    <div class="row">
+      <div class="small-6 large-2 columns"></div>
+      <div class="small-6 large-8 columns" style="text-align: center;">
+          <h3>Workhours attributed to by others</h3>
+      </div>
+      <div class="small-6 large-2 columns"></div>
+    </div>
+    <table width="80%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Who did the work?</th>
+                <th>Work credited to</th>
+                <th>Hours</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($workentries_attributed as $wp):?> 
+                <tr>
+                    <td><?php echo formatDate($wp->d_date,"d/m/Y",true)?></td>
+                    <td><?php echo $wp->getFullCategoryTitle()?></td>
+                    <td><?php echo $wp->description?>
+                    <td><?php echo $wp->getUser()->getFullName()?></td>
+                    <td><?php echo $wp->getAccredited() ? $wp->getAccredited()->getFullName() : ""?></td>
+                    <td><?php echo $wp->hours?>
+                    </td>
+          <td>
+            <?php echo Html::b("/bend-workhours/editworkentry/" . $wp->id, "Edit");?>
+          </td>
+                </tr>
+            <?php endforeach; ?>
+                <tr>
+                    <td colspan="7" style="text-align: center; font-size: 1.5em">
+                      Total Hours Attributed for this Period: 
+                      <b><?php echo $total_attributed?></b>.
+                    </td>
+                </tr>
+            
+        </tbody>
+    </table>
 <?php endif;?>
