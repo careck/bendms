@@ -176,7 +176,23 @@ class BendService extends DbService {
     	});
     	return $users;
     }
-    
+ 
+     /**
+     * Returns only those occupant users that do workhours
+     * 
+     * @return User[]
+     */
+    function getOccupants() {
+        $occupants = $this->getAllOccupants(true);
+        if (!empty($occupants)){
+            usort($occupants,function ($a, $b) {
+                return strcmp($a->getSelectOptionTitle(),$b->getSelectOptionTitle());
+            });
+        }            
+        return $occupants;
+    }
+ 
+
     function getUsersForHousehold($household) {
     	$occupants = $household->getAllOccupants();
     	$users = [];

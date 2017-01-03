@@ -26,6 +26,10 @@ class BendHouseholdOccupant extends DbObject {
     	return !empty($user) ? $user->getContact() : null;
     }
     
+    function getHousehold() {
+        return $this->Bend->getHouseholdForId($this->bend_household_id);
+    }
+
     /**
      * Return all work entries for this household occupant
      * 
@@ -44,6 +48,12 @@ class BendHouseholdOccupant extends DbObject {
      */
     function getWorkhoursAttributed($period = null) {
         return $this->Bend->getAttributedWorkhoursForUser($this->user_id,$period);
+    }
+
+    function getSelectOptionTitle() {
+        $u = $this->getUser();
+        $h = $this->getHousehold();
+        return $u->getSelectOptionTitle()." #".$h->streetnumber;
     }
 
 }

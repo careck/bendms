@@ -13,6 +13,7 @@ class BendWorkEntry extends DbObject {
     
     // the user who should benefit from those hours
     public $attributed_user_id;
+    public $attributed_household_id;
     
     public function insert($force_validation=true) {
     	if (empty($this->bend_workperiod_id)) {

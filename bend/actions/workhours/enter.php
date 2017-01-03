@@ -6,7 +6,7 @@ function enter_GET(Web $w) {
 					$w->Auth->hasRole("bend_admin") ?
 						array("Who did the work?",  "select", "user_id", $w->Auth->user()->id, $w->Bend->getOccupantUsers()) :
 						array("Who did the work?",  "static", "", $w->Auth->user()->getFullName()),
-					array("Who to credit to",  "select", "attributed_user_id", $w->Auth->user()->id, $w->Bend->getOccupantUsers()),
+					array("Who to credit to",  "select", "attributed_user_id", $w->Auth->user()->id, $w->Bend->getOccupants()),
 					array("Date", "date", "d_date"),
 					array("Hours","text","hours"),
 			),
