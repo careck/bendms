@@ -46,7 +46,7 @@ function editoccupant_GET(Web $w) {
 					array("Mobile Phone", "text", "mobile", $contact->mobile),
 			),
 	);
-	$w->ctx("form",Html::multiColForm($form, "/bend-household/editoccupant/{$householdid}/{$occupantid}", "POST", "Save"));
+	$w->ctx("form",Html::multiColForm($form, "/bend-household/editoccupant/{$householdid}/{$occupantid}#occupants", "POST", "Save"));
 	
 }
 
@@ -102,5 +102,5 @@ function editoccupant_POST(Web $w) {
 		$oc->update();
 	}
 	
-	$w->msg("Occupant updated","/bend-household/show/{$household->bend_lot_id}/{$householdid}");
+	$w->msg("Occupant updated","/bend-household/show/{$household->bend_lot_id}/{$householdid}#occupants");
 }

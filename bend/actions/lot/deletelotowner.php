@@ -15,5 +15,5 @@ function deletelotowner_GET(Web $w) {
 	}
 	
 	$owner->delete();
-	$w->msg("Owner removed.","bend-lot/showlot/{$lotid}");
+	$w->msg("Owner removed.","bend-lot/showlot/{$lotid}#owners");
 }

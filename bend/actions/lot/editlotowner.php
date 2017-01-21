@@ -55,7 +55,7 @@ function editlotowner_GET(Web $w) {
 			),
 	);
 	
-	$w->ctx("form",Html::multiColForm($form, "/bend-lot/editlotowner/{$lotId}/{$lotOwnerId}", "POST", "Save"));
+	$w->ctx("form",Html::multiColForm($form, "/bend-lot/editlotowner/{$lotId}/{$lotOwnerId}#owners", "POST", "Save"));
 
 }
 
@@ -111,5 +111,5 @@ function editlotowner_POST(Web $w) {
 		$lotOwner->update();
 	}
 
-	$w->msg("Lot Owner updated","/bend-lot/showlot/{$lotId}");
+	$w->msg("Lot Owner updated","/bend-lot/showlot/{$lotId}#owners");
 }

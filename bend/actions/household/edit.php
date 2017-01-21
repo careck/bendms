@@ -26,7 +26,7 @@ function edit_GET(Web $w) {
 	));
 	
 	$w->setLayout(null);
-	$w->out(Html::multiColForm($form, "/bend-household/edit/{$lotId}/{$household->id}", "POST", "Save"));
+	$w->out(Html::multiColForm($form, "/bend-household/edit/{$lotId}/{$household->id}#household", "POST", "Save"));
 
 }
 
@@ -45,5 +45,5 @@ function edit_POST(Web $w) {
 	$household->bend_lot_id = $lotId;
 	$household->insertOrUpdate();
 	
-	$w->msg("Household updated","/bend-household/show/{$lot->id}/{$household->id}");
+	$w->msg("Household updated","/bend-household/show/{$lot->id}/{$household->id}#household");
 }

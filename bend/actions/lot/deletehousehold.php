@@ -15,5 +15,5 @@ function deletehousehold_GET(Web $w) {
 	}
 	
 	$household->delete();
-	$w->msg("Household removed.","bend-lot/showlot/{$lotid}");
+	$w->msg("Household removed.","bend-lot/showlot/{$lotid}#households");
 }

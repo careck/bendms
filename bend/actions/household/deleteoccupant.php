@@ -10,5 +10,5 @@ function deleteoccupant_GET(Web $w) {
 	
 	$occupant->delete();
 	
-	$w->msg("Occupant deleted","/bend-household/show/{$householdid}");
+	$w->msg("Occupant deleted","/bend-household/show/{$household->bend_lot_id}/{$householdid}#occupants");
 }
