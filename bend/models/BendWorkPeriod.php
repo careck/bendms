@@ -8,21 +8,6 @@ class BendWorkPeriod extends DbObject {
     public $is_closed;
     public $monthly_person_hours;
 
-    /**
-     * Calculate the difference in months between two dates (v1 / 18.11.2013)
-     *
-     * @param \DateTime $date1
-     * @param \DateTime $date2
-     * @return int
-     */
-    public static function diffInMonths(\DateTime $date1, \DateTime $date2)
-    {
-        $diff =  $date1->diff($date2);
-
-        $months = $diff->y * 12 + $diff->m + $diff->d / 30;
-
-        return (int) round($months);
-    }
     
     function getSelectOptionTitle() {
     	return formatDate($this->d_start)." - ".formatDate($this->d_end);
@@ -36,7 +21,7 @@ class BendWorkPeriod extends DbObject {
     	//$start = Carbon::createFromTimestamp($this->d_start);
     	//$end = Carbon::createFromTimestamp($this->d_end);
     	//return $start->diffInMonths($end);
-        return $this->diffInMonths(new DateTime(formatDate($this->d_start,"Y-m-d")), new DateTime(formatDate($this->d_end,"Y-m-d")));
+        return BendService::diffInMonths(new DateTime(formatDate($this->d_start,"Y-m-d")), new DateTime(formatDate($this->d_end,"Y-m-d")));
     }
     
     function getSinglePersonBudget() {

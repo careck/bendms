@@ -30,4 +30,37 @@ class BendHousehold extends DbObject {
     public function getLot() {
     	return $this->Bend->getLotForId($this->bend_lot_id);
     }
+    
+    public function getTitle() {
+    	return $this->streetnumber;
+    }
+    
+    public function getSelectOptionTitle() {
+    	return "#".$this->getTitle();
+    }
+    
+    /**
+     * This returns current or past occupants that
+     * lived at a household during the workperiod
+     * 
+     * @param BendWorkPeriod $wp
+     * @return <BendHouseholdOccupant>[]
+     */
+    public function getOccupantsForWorkperiod(BendWorkPeriod $wp) {
+    	// get all occupants for this household
+    	$all_occupants = $this->getAllOccupants();
+    	$occupants = [];
+    	if (!empty($all_occupants)) {
+	    	foreach ($all_occupants as $occ) {
+	    		if (!$occ->does_workhours) continue;
+	    		// check if $occ resided in the household during the work period
+	    		if ($occ->d_start <= $wp->d_start) {
+	    			if (empty($occ->d_end) || $occ->d_end <= $wp->d_end) {
+	    				$occupants[] = $occ;
+	    			}
+	    		}
+	    	}
+    	}
+    	return $occupants;
+    }
 }

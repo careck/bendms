@@ -27,7 +27,7 @@ average out to 4 per month per adult resident, or per unoccupied block.</p>
 <div class="row">
   <div class="small-6 large-2 columns"></div>
   <div class="small-6 large-8 columns">
-      <a href="/bend-workhours/enter" class="button expand large">Enter Workhours</a>
+      <a href="/bend-workhours/editworkentry/" class="button expand large">Enter Workhours</a>
   </div>
   <div class="small-12 large-2 columns"></div>
 </div>

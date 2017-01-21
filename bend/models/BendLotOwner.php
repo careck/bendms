@@ -19,7 +19,8 @@ class BendLotOwner extends DbObject {
 
     function getFullname() {
         if (!empty($this->user_id)) {
-            return $this->getUser()->getFullName();
+        	$user = $this->getUser(); 
+            return !empty($user) ? $user->getFullName() : "";
         }
     }
     

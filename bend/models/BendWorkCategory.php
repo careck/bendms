@@ -8,6 +8,13 @@ class BendWorkCategory extends DbObject {
     	return $this->getObjects("BendWorkCategory",["is_deleted"=>0,"parent_id"=>$this->id],false,true,['title asc']);
     }
     
+    function getAllWorkEntries($period = null) {
+    	if (!empty($period)){
+    		return $this->getObjects("BendWorkEntry",["is_deleted"=>0,"bend_workperiod_id"=>$period->id,"bend_work_category_id"=>$this->id]);
+    	} else {
+    		return $this->getObjects("BendWorkEntry",["is_deleted"=>0,"bend_work_category_id"=>$this->id]);
+    	}
+    }
     /**
      * This returns a list with this category as the last object, with the
      * parents and granparent objects preceding.
@@ -30,7 +37,7 @@ class BendWorkCategory extends DbObject {
      * @param unknown $period
      */
     function getWorkentriesForPeriod($period,$includeChildren=false) {
-    	$wes = $this->getObjects("BendWorkEntry",["is_deleted"=>0,"bend_workperiod_id"=>$period->id,"bend_work_category_id"=>$this->id]);
+    	$wes = $this->getAllWorkEntries($period);
     	if (empty($wes)) {
     		$wes = [];
     	}
@@ -57,6 +64,38 @@ class BendWorkCategory extends DbObject {
     		}
     	}
     	return $hours;
+    }
+    
+    /**
+     * Delete the WorkCategory. Move all child categories up to this parent level. 
+     * If this is a top level category then it can only be deleted if it has no 
+     * child categories and no work hours are attached to it!
+     * {@inheritDoc}
+     * @see DbObject::delete()
+     */
+    function delete($force = false) {
+	    $children = $this->getChildren();
+    	if (!empty($this->parent_id)) {
+	    	// get all child categories and delete them!
+	    	if (!empty($children)) {
+	    		foreach ($children as $child) {
+	    			$child->delete($force);
+	    		}
+	    	}
+			// then get all hours that are directly attached to this category and move them one higher
+			$sql = "update bend_work_entry set bend_work_category_id = " . $this->parent_id . " where bend_work_category_id = " . $this->id;
+			$this->db->sql ( $sql );
+	    	Parent::delete($force);
+    	} else {
+    		// we can only delete Top Level Categories which have no children
+    		// and have no workhours attached
+    		$workentries = $this->getAllWorkEntries();
+    		if (empty($children) && empty($workentries)) {
+    			Parent::delete();
+    		} else {
+    			throw new Exception("Top Level Category not empty");
+    		}
+    	}
     }
 }
 

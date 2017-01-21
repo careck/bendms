@@ -48,6 +48,9 @@
                     </td>
 					<td>
 						<?php echo Html::b("/bend-workhours/editworkentry/" . $wp->id, "Edit");?>
+						<?php if (!$workPeriod->is_closed):?>
+						<?php echo Html::b("/bend-workhours/deleteworkentry/" . $wp->id, "Delete","This action cannot be reversed, really delete?");?>
+						<?php endif;?>
 					</td>
                 </tr>
             <?php endforeach; ?>
@@ -95,6 +98,9 @@
                     </td>
           <td>
             <?php echo Html::b("/bend-workhours/editworkentry/" . $wp->id, "Edit");?>
+			<?php if (!$workPeriod->is_closed):?>
+			<?php echo Html::b("/bend-workhours/deleteworkentry/" . $wp->id, "Delete","This action cannot be reversed, really delete?");?>
+			<?php endif;?>
           </td>
                 </tr>
             <?php endforeach; ?>

@@ -31,5 +31,5 @@ function editperiod_POST(Web $w){
 	$period->fill($_POST);
 	$period->insertOrUpdate();
 	
-	$w->msg("Work Period updated","/bend-workhours/admin");
+	$w->msg("Work Period updated","/bend-workhours/admin#workperiods");
 }

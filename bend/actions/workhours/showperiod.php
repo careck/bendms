@@ -4,7 +4,7 @@ function showperiod_GET(Web $w) {
 	
 	$wp = $w->Bend->getWorkperiodForId($id);
 	if (empty($wp)) {
-		$w->error("Workperiod does not exist","/bend-workhours/admin");
+		$w->error("Workperiod does not exist","/bend-workhours/admin#workperiods");
 	}
 	History::add("Work Period: ".formatDate($wp->d_start));
 	$w->ctx("workperiod",$wp);

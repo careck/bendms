@@ -23,5 +23,5 @@ function addcategory_POST(Web $w) {
 	$cat->parent_id = $parent_id;
 	$cat->insert();
 	
-	$w->msg("Category created","/bend-workhours/admin");
+	$w->msg("Category created","/bend-workhours/admin#categories");
 }

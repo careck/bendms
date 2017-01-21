@@ -12,42 +12,64 @@ class BendService extends DbService {
     }
 
     function getLotForId($id) {
-        return $this->getObject("BendLot", $id);
+        return $this->getObject("BendLot", ["id" => $id, "is_deleted" => 0]);
     }
 
     function getAllHouseholds() {
-        return $this->getObjects("BendHousehold", ["is_deleted" => 0],false, true,["streetnumber asc"]);
+        return $this->getObjects("BendHousehold", ["is_deleted" => 0],false, true,["bend_lot_id asc"]);
     }
 
     function getHouseholdForId($id) {
-        return $this->getObject("BendHousehold", $id);
+        return $this->getObject("BendHousehold", ["id" => $id, "is_deleted" => 0]);
     }
     
     function getBendLotOwnerForId($id) {
-    	return $this->getObject("BendLotOwner", $id);
+    	return $this->getObject("BendLotOwner", ["id" => $id, "is_deleted" => 0]);
     }
     
     function getHouseholdOccupantForId($id) {
-    	return $this->getObject("BendHouseholdOccupant", $id);
+    	return $this->getObject("BendHouseholdOccupant", ["id" => $id, "is_deleted" => 0]);
     }
     
     function getAllWorkPeriods() {
-    	return $this->getObjects("BendWorkPeriod",["is_deleted"=>0],null,false,["d_start asc"]);
+    	return $this->getObjects("BendWorkPeriod",["is_deleted"=>0],null,false,["d_start desc"]);
     }
     
     function getWorkPeriodForId($id) {
-    	return $this->getObject("BendWorkPeriod",$id);
+    	return $this->getObject("BendWorkPeriod",["id" => $id, "is_deleted" => 0]);
     }
     
     function getWorkEntryForId($id) {
-    	return $this->getObject("BendWorkEntry",$id);
+    	return $this->getObject("BendWorkEntry",["id" => $id, "is_deleted" => 0]);
+    }
+    
+    /**
+     * return household objects where a user is an occupant
+     * one user can be an occupant in more than one household!
+     * 
+     * @param int $id
+     * @return <BendHousehold>[]
+     */
+    function getHouseholdsForOccupantId($id) {
+    	$occupants = $this->getObjects("BendHouseholdOccupant",["is_deleted" => 0,"user_id" => $id]);
+		$households = [];
+		if (!empty($occupants)) {
+			foreach ($occupants as $occupant) {
+				$households[]= $this->getHouseholdForId($occupant->bend_household_id);
+			}
+		}
+		return $households;
     }
     
     function getWorkPeriodForDate($timestamp) {
     	$wps = $this->getAllWorkPeriods();
     	foreach ($wps as $wp) {
-    		if (!$wp->is_closed  && $wp->d_start <= $timestamp && $timestamp <= $wp->d_end) {
-    			return $wp;
+    		if ($wp->d_start <= $timestamp && $timestamp <= $wp->d_end) {
+    			if (!$wp->is_closed) {
+    				return $wp;
+    			} else {
+    				throw new WorkPeriodClosedException();
+    			}
     		}
     	}
     }
@@ -205,4 +227,59 @@ class BendService extends DbService {
     	}
     	return $entries;
     }
+    
+    function getWorkhoursFiltered($userid=null, $householdid=null, $workperiodid=null) {
+    	$where["is_deleted"] = 0;
+    	if (!empty($userid)) {
+    		$where["attributed_user_id"] = $userid;
+    	}
+    	if (!empty($householdid)) {
+    		$where["bend_household_id"] = $householdid;
+    	}
+    	if (!empty($workperiodid)) {
+    		$where["bend_workperiod_id"] = $workperiodid;
+    	}
+    	return $this->getObjects("BendWorkEntry",$where);
+    }
+    
+    public function navigation(Web $w, $title = null, $nav = null) {
+    	if ($title) {
+    		$w->ctx("title", $title);
+    	}
+    
+    	$nav = $nav ? $nav : array();
+    
+    	if ($w->Auth->loggedIn()) {
+	    	$w->menuLink("bend-workhours", "Workhours", $nav);
+	    	$w->menuLink("bend-electricity", "Electricity", $nav);
+	    	if ($w->Auth->hasRole("bend_admin")) {
+	    		$w->menuLink("bend-workhours/admin", "Admin - Workhours", $nav);
+	    		$w->menuLink("bend-household", "Admin - Households", $nav);
+	    		$w->menuLink("bend-lot", "Admin - Lots", $nav);
+	    		$w->menuLink("bend-electricity/admin", "Admin - Electricity", $nav);
+    		}
+    	}
+    
+    	$w->ctx("navigation", $nav);
+    	return $nav;
+    }
+    
+    /**
+     * Calculate the difference in months between two dates (v1 / 18.11.2013)
+     *
+     * @param \DateTime $date1
+     * @param \DateTime $date2
+     * @return int
+     */
+    public static function diffInMonths(\DateTime $date1, \DateTime $date2)
+    {
+    	$diff =  $date1->diff($date2);
+    
+    	$months = $diff->y * 12 + $diff->m + $diff->d / 30;
+    
+    	return (int) round($months);
+    }    
+    
 }
+
+class WorkPeriodClosedException extends Exception {}

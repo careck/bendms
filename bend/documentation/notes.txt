@@ -1,0 +1,22 @@
+Development Notes
+=================
+
+[x] When deleting a category check whether any time is attached to it.
+    - move all attached timelogs to higher level category
+    
+[x] How can we accommodate users which own more than one lot/household?
+    - store household_id on the work entry
+    - show household select box on work hours entry screen
+    - household gets filled automatically from attributed field
+    - first entry is preselected
+
+[x] Action to assign all timelogs to correct period automatically
+
+[ ] Report that lists all work hours for one household, optionally with workperiod
+
+[ ] Report that lists all work hours for one category (and subcategories!), 
+    optionally with workperiod
+    
+[X] Workhours Admin move categories to a tab 
+
+[x] Delete a work entry

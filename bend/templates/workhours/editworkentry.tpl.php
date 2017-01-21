@@ -32,6 +32,20 @@
                 }
             );
         });
+        $("#attributed_user_id").on("change", function(event) {
+
+            // Get/check for extra form fields
+            $.getJSON("/bend-workhours/ajax_gethouseholds/" + $("#attributed_user_id").val(),
+                function(result) {
+                    var html = result.length > 1 ? '<option value="">-- Select --</option>' :'';
+                    for (var i = 0, len = result.length; i < len; i++) {
+                        var hh = result[i];
+                        html+=('<option value="' + hh.id + '">#' + hh.streetnumber + '</option>');
+                    }        
+                    $('#bend_household_id').html(html);
+                }
+            );
+        });
         
     });
 </script>         

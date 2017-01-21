@@ -22,10 +22,10 @@ function editcategory_POST(Web $w) {
 	list($id) = $w->pathMatch("a");
 	$cat = $w->Bend->getWorkCategoryForId($id);
 	if (empty($cat)) {
-		$w->error("no category found","/bend-workhours/admin");
+		$w->error("no category found","/bend-workhours/admin#categories");
 	}
 	$cat->fill($_POST);
 	$cat->update();
 	
-	$w->msg("Category updated","/bend-workhours/admin");
+	$w->msg("Category updated","/bend-workhours/admin#categories");
 }
