@@ -25,15 +25,17 @@ function editworkentry_GET(Web $w) {
 			$category_3 = $path[2];
 		}
 	}
-	$households = $w->Bend->getHouseholdsForOccupantId($workentry->attributed_user_id);
+	$this_user = empty($workentry->user_id) ? $w->Auth->user()->id : $workentry->user_id;
+	$this_accredited = empty($workentry->attributed_user_id) ? $w->Auth->user()->id : $workentry->attributed_user_id;
+	$households = $w->Bend->getHouseholdsForOccupantId($this_accredited);
+	$this_date = empty($workentry->d_date) ? time() : $workentry->d_date;
+
 	$form["Work Hours"]=array(
 			array(
-					$w->Auth->hasRole("bend_admin") ?
-						array("Who did the work?",  "select", "user_id", $workentry->user_id, $w->Bend->getOccupantUsers()) :
-						array("Who did the work?",  "static", "", $w->Auth->getUser($workentry->user_id)->getFullName()),
-					array("Who to credit to",  "select", "attributed_user_id", $workentry->attributed_user_id, $w->Bend->getOccupantUsers()),
-					array("Household",  "select", "bend_household_id", $workentry->bend_household_id, !empty($workentry->attributed_user_id) ? $households:null),
-					array("Date", "date", "d_date", formatDate($workentry->d_date)),
+					array("Who did the work?",  "select", "user_id", $this_user, $w->Bend->getOccupantUsers()),
+					array("Who to credit to",  "select", "attributed_user_id", $this_accredited, $w->Bend->getOccupantUsers()),
+					array("Household",  "select", "bend_household_id", $workentry->bend_household_id, $households,"null"),
+					array("Date", "date", "d_date", formatDate($this_date)),
 					array("Hours","text","hours",$workentry->hours),
 			),
 			array(
