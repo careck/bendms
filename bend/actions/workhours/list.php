@@ -4,17 +4,44 @@ function list_GET(Web $w) {
 	list($userid,$periodid) = $w->pathMatch("a","b");
 	
 	// get the user
-	if (!empty($userid)) {
+	if (!empty($userid) && $w->Auth->hasRole("bend_admin")) {
 		$user = $w->Auth->getUser($userid);
 	} else {
 		$user = $w->Auth->user();
 	}
 
+	if (empty($user)) {
+		$w->error("No such user.");
+	}
 	// get workperiod
 	if (!empty($periodid)) {
 		$workperiod = $w->Bend->getWorkPeriodForId($periodid);
 	} else {
 		$workperiod = $w->Bend->getWorkPeriodForDate(time());
+	}
+	if (empty($workperiod)) {
+		$w->error("No Workperiod found to display.");
+	}
+	
+	// get all workperiods to find the previous and next
+	$all_workperiods = $w->Bend->getAllWorkPeriods();
+	if (empty($all_workperiods)) {
+		$w->error("No Workperiods found.");
+	}
+	$previous_workperiod_id = null;
+	$next_workperiod_id = null;
+	$current_index=-1;
+	for ($i =0; $i < sizeof($all_workperiods); $i++) {
+		$wp = $all_workperiods[$i];
+		if ($wp->id == $workperiod->id) {
+			$current_index = $i; break;
+		}
+	}
+	if ($current_index > 0) {
+		$next_workperiod_id = $all_workperiods[$current_index-1]->id;
+	}
+	if ($current_index < sizeof($all_workperiods)-1) {
+		$previous_workperiod_id = $all_workperiods[$current_index+1]->id;
 	}
 	
 	// calculate total work hours for this period
@@ -48,6 +75,8 @@ function list_GET(Web $w) {
 	$w->ctx("workentries",$workentries);
 	$w->ctx("workentries_attributed",$workentries_attributed);
 	$w->ctx("workPeriod",$workperiod);
+	$w->ctx("previous_workperiod_id", $previous_workperiod_id);
+	$w->ctx("next_workperiod_id", $next_workperiod_id);
 	$w->ctx("allWorkPeriods",$w->Bend->getAllWorkPeriods());
 	
 }

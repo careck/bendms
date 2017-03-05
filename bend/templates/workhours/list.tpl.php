@@ -9,8 +9,17 @@
 <div class="row">
   <div class="small-6 large-2 columns"></div>
   <div class="small-6 large-8 columns" style="text-align: center;">
-      <h2>Workperiod <?php echo $workPeriod->getSelectOptionTitle()?></h2>
+      <h2>Workperiod <?php echo $workPeriod->getSelectOptionTitle()?>
+      <?php if ($workPeriod->is_closed){?> (CLOSED)<?php }?></h2>
       <h2><?php echo $user->getFullName()?></h2>
+  </div>
+  <div class="small-6 large-8 columns" style="text-align: center;">
+      <?php if (!empty($previous_workperiod_id)){?>
+      <a href="/bend-workhours/list/<?php echo $user->id?>/<?php echo $previous_workperiod_id?>">&lt; Previous Workperiod</a>
+      <?php } 
+      		if (!empty($next_workperiod_id)){?>
+      &nbsp;|&nbsp;<a href="/bend-workhours/list/<?php echo $user->id?>/<?php echo $next_workperiod_id?>">Next Workperiod &gt;</a>
+      <?php }?>
   </div>
   <div class="small-6 large-2 columns"></div>
 </div>
@@ -47,8 +56,8 @@
                     <td><?php echo $wp->hours?>
                     </td>
 					<td>
-						<?php echo Html::b("/bend-workhours/editworkentry/" . $wp->id, "Edit");?>
 						<?php if (!$workPeriod->is_closed):?>
+						<?php echo Html::b("/bend-workhours/editworkentry/" . $wp->id, "Edit");?>
 						<?php echo Html::b("/bend-workhours/deleteworkentry/" . $wp->id, "Delete","This action cannot be reversed, really delete?");?>
 						<?php endif;?>
 					</td>
