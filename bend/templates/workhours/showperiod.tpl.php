@@ -101,7 +101,7 @@
 					$total_hours = 0;
 					$workentries = $w->Bend->getWorkEntriesForHousehold($household,$workperiod);
 					$occupants = $household->getOccupantsForWorkperiod($workperiod);
-					$household_budget = sizeof($occupants) * $workperiod->getSinglePersonBudget();
+					$household_budget = $household->getWorkhoursLevyForWorkperiod($workperiod);
 					if (!empty($workentries)) {
 						foreach ($workentries as $entry) {
 							$users_and_entries[$entry->attributed_user_id] = empty($users_and_entries[$entry->attributed_user_id]) ? $entry->hours : $users_and_entries[$entry->attributed_user_id] + $entry->hours;
@@ -122,13 +122,7 @@
 						if (!$occ->does_workhours) continue;
 						$user = $w->Auth->getUser($occ->user_id);
 						// calculate the number of months that this user needs to work
-						$user_months = BendService::diffInMonths(
-								!empty($occ->d_end) && $occ->d_end < $workperiod->d_end ? 
-									new DateTime(formatDate($occ->d_end,"Y-m-d")) :
-									new DateTime(formatDate($workperiod->d_end,"Y-m-d")),
-								new DateTime(formatDate($workperiod->d_start,"Y-m-d"))
-								);
-						$user_budget = $user_months * $workperiod->monthly_person_hours;
+						$user_budget = $occ->getWorkhoursLevyForWorkperiod($workperiod);
 						$user_hours = !empty($users_and_entries[$user->id]) ? $users_and_entries[$user->id] : 0;
 						$user_debt = $user_budget - $user_hours;
 					?>

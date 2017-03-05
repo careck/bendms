@@ -54,7 +54,7 @@ class BendHousehold extends DbObject {
 	    	foreach ($all_occupants as $occ) {
 	    		if (!$occ->does_workhours) continue;
 	    		// check if $occ resided in the household during the work period
-	    		if ($occ->d_start <= $wp->d_start) {
+	    		if ($occ->d_start < $wp->d_end) {
 	    			if (empty($occ->d_end) || $occ->d_end <= $wp->d_end) {
 	    				$occupants[] = $occ;
 	    			}
@@ -62,5 +62,16 @@ class BendHousehold extends DbObject {
 	    	}
     	}
     	return $occupants;
+    }
+    
+    public function getWorkhoursLevyForWorkperiod(BendWorkPeriod $workperiod) {
+    	$occupants = $this->getOccupantsForWorkperiod($workperiod);
+    	$levy = 0;
+    	if (!empty($occupants)) {
+	    	foreach ($occupants as $occ) {
+	    		$levy += $occ->getWorkhoursLevyForWorkperiod($workperiod);
+	    	}
+    	}
+    	return $levy;
     }
 }

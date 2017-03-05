@@ -46,4 +46,16 @@ class BendHouseholdOccupant extends DbObject {
         return $this->Bend->getAttributedWorkhoursForUser($this->user_id,$period);
     }
 
+    function getWorkhoursLevyForWorkperiod(BendWorkPeriod $workperiod) {
+    	// calculate the number of months that this user needs to work
+    	$user_months = BendService::diffInMonths(
+    		!empty($this->d_end) && $this->d_end < $workperiod->d_end ?
+    			new DateTime(formatDate($this->d_end,"Y-m-d")) :
+    			new DateTime(formatDate($workperiod->d_end,"Y-m-d")),
+    		$this->d_start > $workperiod->d_start ?
+    			new DateTime(formatDate($this->d_start,"Y-m-d")) :
+    			new DateTime(formatDate($workperiod->d_start,"Y-m-d"))
+    		);
+    	return $user_months * $workperiod->monthly_person_hours;
+    }
 }
