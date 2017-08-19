@@ -65,7 +65,7 @@ function editoccupant_POST(Web $w) {
 	
 	$oc->fill($_POST);
 	$oc->bend_household_id = $householdid;
-	$oc->insertOrUpdate();
+	$oc->insertOrUpdate(true);
 	
 	if (!empty($oc->user_id)) {
 		$user = $oc->getUser();

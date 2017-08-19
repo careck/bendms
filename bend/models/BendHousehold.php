@@ -53,6 +53,7 @@ class BendHousehold extends DbObject {
     	if (!empty($all_occupants)) {
 	    	foreach ($all_occupants as $occ) {
 	    		if (!$occ->does_workhours) continue;
+	    		if (!empty($occ->d_end) && $occ->d_end <= $wp->d_start) continue;
 	    		// check if $occ resided in the household during the work period
 	    		if ($occ->d_start < $wp->d_end) {
 	    			if (empty($occ->d_end) || $occ->d_end <= $wp->d_end) {
