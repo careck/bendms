@@ -80,7 +80,7 @@ class BendService extends DbService {
      * @param mixed $user either an object of User or integer of an id
      * @return array of BendWorkEntry objects
      */
-    function getWorkhours($user = null, $period = null) {
+    function getWorkhours($user = null, $period = null, $household) {
     	$where = ['is_deleted'=>0];
     	if (!empty($user)) {
     		$userid = is_a($user,"User") ? $user->id : $user;
@@ -89,6 +89,10 @@ class BendService extends DbService {
     	if (!empty($period)) {
     		$id = is_a($period, "BendWorkPeriod") ? $period->id : $period;
     		$where['bend_workperiod_id']=$id;
+    	}
+    	if (!empty($household)) {
+    		$id = is_a($household, "BendHousehold") ? $household->id : $household;
+    		$where['bend_household_id']=$id;
     	}
     	return $this->getObjects("BendWorkEntry",$where,false,true,["d_date desc"]);
     }
@@ -100,7 +104,7 @@ class BendService extends DbService {
      * @param mixed $user either an object of User or integer of an id
      * @return array of BendWorkEntry objects
      */
-    function getAttributedWorkhours($user = null, $period = null) {
+    function getAttributedWorkhours($user = null, $period = null, $household = null) {
         $where = ['is_deleted'=>0];
         if (!empty($user)) {
             $userid = is_a($user,"User") ? $user->id : $user;
@@ -110,6 +114,11 @@ class BendService extends DbService {
             $id = is_a($period, "BendWorkPeriod") ? $period->id : $period;
             $where['bend_workperiod_id']=$id;
         }
+        if (!empty($household)) {
+        	$id = is_a($household, "BendHousehold") ? $household->id : $household;
+        	$where['bend_household_id']=$id;
+        }
+        
         return $this->getObjects("BendWorkEntry",$where,false,true,["d_date desc"]);
     }
 
@@ -120,11 +129,11 @@ class BendService extends DbService {
      * @param mixed $period either an object of BendWorkPeriod or integer of an id
      * @return array of BendWorkEntry objects
      */
-    function getWorkhoursForUser($user, $period = null) {
+    function getWorkhoursForUser($user, $period = null, $household = null) {
     	if (empty($user)) {
     		return null;
     	}
-    	return $this->getWorkhours($user,$period);
+    	return $this->getWorkhours($user,$period,$household);
     }    
 
     /**
@@ -133,11 +142,11 @@ class BendService extends DbService {
      * @param mixed $period either an object of BendWorkPeriod or integer of an id
      * @return array of BendWorkEntry objects
      */
-    function getAttributedWorkhoursForUser($user, $period = null) {
+    function getAttributedWorkhoursForUser($user, $period = null, $household = null) {
         if (empty($user)) {
             return null;
         }
-        return $this->getAttributedWorkhours($user,$period);
+        return $this->getAttributedWorkhours($user,$period,$household);
     }    
 
 
@@ -219,7 +228,7 @@ class BendService extends DbService {
     	if (empty($occupants)) return null;
     	foreach ($occupants as $occupant) {
     		if ($occupant->does_workhours) {
-	    		$household_entries = $this->getAttributedWorkhoursForUser($occupant->getUser(),$period);
+	    		$household_entries = $this->getAttributedWorkhoursForUser($occupant->getUser(),$period,$household);
 	    		if (!empty($household_entries)) {
 	    			$entries = array_merge($entries,$household_entries);
 	    		}
