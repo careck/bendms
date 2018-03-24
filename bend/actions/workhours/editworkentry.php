@@ -81,8 +81,11 @@ function editworkentry_POST(Web $w) {
 	} catch (WorkPeriodClosedException $e) {
 		$_SESSION["work_period_entry_error_object_data"] = $we->toArray();
 		$w->error("You cannot add hours on this date. This workperiod is closed.","/bend-workhours/editworkentry/".$we->id);
+	} catch (NoMatchingWorkPeriodException $e) {
+		$_SESSION["work_period_entry_error_object_data"] = $we->toArray();
+		$w->error("No matching workperiod found for this date.","/bend-workhours/editworkentry/".$we->id);
 	}
 	
 	
-	$w->msg("Work hours recorded","/bend-workhours/list");
+	$w->msg("Work hours recorded","/bend-workhours/list/".$we->user_id."/".$we->bend_workperiod_id);
 }

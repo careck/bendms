@@ -51,7 +51,7 @@ class BendService extends DbService {
      * @return <BendHousehold>[]
      */
     function getHouseholdsForOccupantId($id) {
-    	$occupants = $this->getObjects("BendHouseholdOccupant",["is_deleted" => 0,"user_id" => $id]);
+    	$occupants = $this->getObjects("BendHouseholdOccupant",["is_deleted" => 0,"does_workhours"=>1,"user_id" => $id]);
 		$households = [];
 		if (!empty($occupants)) {
 			foreach ($occupants as $occupant) {
@@ -65,11 +65,7 @@ class BendService extends DbService {
     	$wps = $this->getAllWorkPeriods();
     	foreach ($wps as $wp) {
     		if ($wp->d_start <= $timestamp && $timestamp <= $wp->d_end) {
-    			if (!$wp->is_closed) {
-    				return $wp;
-    			} else {
-    				throw new WorkPeriodClosedException();
-    			}
+    			return $wp;
     		}
     	}
     }
@@ -292,3 +288,6 @@ class BendService extends DbService {
 }
 
 class WorkPeriodClosedException extends Exception {}
+class NoMatchingWorkPeriodException extends Exception{}
+
+

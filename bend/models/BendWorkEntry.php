@@ -3,7 +3,7 @@ class BendWorkEntry extends DbObject {
     
     public $bend_workperiod_id;
     
-    //The user who entered the work ours/
+    //The user who entered the work hours
     public $user_id; 
     
     public $d_date;
@@ -22,8 +22,19 @@ class BendWorkEntry extends DbObject {
      */
     private function setWorkperiod() {
     	$wp = $this->Bend->getWorkPeriodForDate($this->d2Time($this->d_date));
-    	if (!empty($wp)) {
+    	if (empty($wp)) {
+    		throw NoMatchingWorkPeriodException();
+    	}
+    	if (!$wp->is_closed) {
     		$this->bend_workperiod_id = $wp->id;
+    	} else {
+    		// check whether household is unoccupied
+    		$h = $this->getHousehold();
+    		if (!empty($h)) {
+    			if ($h->is_occupied) {
+    				throw new WorkPeriodClosedException();
+    			}
+    		}
     	}
     }
     
@@ -41,21 +52,21 @@ class BendWorkEntry extends DbObject {
     }
     
     public function insert($force_validation=true) {
-    	if (empty($this->bend_workperiod_id)) {
-    		$this->setWorkperiod();
-    	}
     	if (empty($this->bend_household_id)) {
     		$this->setHousehold();
+    	}
+    	if (empty($this->bend_workperiod_id)) {
+    		$this->setWorkperiod();
     	}
     	parent::insert($force_validation);
     }
     
     public function update($force_null_values = false, $force_validation = true) {
-    	if (empty($this->bend_workperiod_id)) {
-    		$this->setWorkperiod();
-    	}
     	if (empty($this->bend_household_id)) {
     		$this->setHousehold();
+    	}
+    	if (empty($this->bend_workperiod_id)) {
+    		$this->setWorkperiod();
     	}
     	parent::update($force_null_values,$force_validation);
     }

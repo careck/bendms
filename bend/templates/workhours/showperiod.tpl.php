@@ -115,7 +115,7 @@
 						<td><?php echo $household_budget?></td>
 						<td><?php echo $total_hours;?></td>
 						<td><?php echo $debt < 0 ? 0 : $debt?></td>
-						<td><?php echo $debt < 0 ? 0 : $debt * 15?></td>
+						<td><?php echo $debt < 0 ? 0 : $workperiod->getSapphsForHours($debt)?></td>
 					</tr>
 					<?php foreach ( $occupants as $occ):?>
 					<?php 
@@ -131,7 +131,7 @@
 						<td><?php echo $user_budget?></td>
 						<td><?php echo $user_hours;?></td>
 						<td><?php echo $user_debt < 0 ? 0 : $user_debt?></td>
-						<td><?php echo $user_debt < 0 ? 0 : $user_debt * 15?></td>
+						<td><?php echo $user_debt < 0 ? 0 : $workperiod->getSapphsForHours($user_debt)?></td>
 					</tr>
 					<?php endforeach;?>
 				<?php endforeach;?>

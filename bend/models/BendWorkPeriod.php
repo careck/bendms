@@ -1,12 +1,11 @@
 <?php
 
-use Carbon\Carbon;
-
 class BendWorkPeriod extends DbObject {
     public $d_start;
     public $d_end;
     public $is_closed;
     public $monthly_person_hours;
+    public $sapphs_per_hour = 20; // default
 
     
     function getSelectOptionTitle() {
@@ -18,9 +17,6 @@ class BendWorkPeriod extends DbObject {
     }
     
     function getNumberOfMonths() {
-    	//$start = Carbon::createFromTimestamp($this->d_start);
-    	//$end = Carbon::createFromTimestamp($this->d_end);
-    	//return $start->diffInMonths($end);
         return BendService::diffInMonths(new DateTime(formatDate($this->d_start,"Y-m-d")), new DateTime(formatDate($this->d_end,"Y-m-d")));
     }
     
@@ -64,6 +60,8 @@ class BendWorkPeriod extends DbObject {
     	return $hours;
     }
 
-    
+    function getSapphsForHours($hours) {
+    	return $this->sapphs_per_hour * $hours;
+    }
 }
 

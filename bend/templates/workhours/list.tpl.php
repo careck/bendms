@@ -12,6 +12,7 @@
       <h2>Workperiod <?php echo $workPeriod->getSelectOptionTitle()?>
       <?php if ($workPeriod->is_closed){?> (CLOSED)<?php }?></h2>
       <h2><?php echo $user->getFullName()?></h2>
+      <p><b>Total Workhours attributed to <?php echo $user->getFullName()?>: <?php echo $total_accredited + $total_attributed?></b></p>
   </div>
   <div class="small-6 large-8 columns" style="text-align: center;">
       <?php if (!empty($previous_workperiod_id)){?>
@@ -41,6 +42,7 @@
                 <th>Description</th>
                 <th>Who did the work?</th>
                 <th>Work credited to</th>
+                <th>Household</th>
                 <th>Hours</th>
                 <th>Actions</th>
             </tr>
@@ -53,6 +55,7 @@
                     <td><?php echo $wp->description?>
                     <td><?php echo $wp->getUser()->getFullName()?></td>
                     <td><?php echo $wp->getAccredited() ? $wp->getAccredited()->getFullName() : ""?></td>
+                    <td>#<?php echo $wp->getHousehold()->streetnumber?></td>
                     <td><?php echo $wp->hours?>
                     </td>
 					<td>
@@ -64,7 +67,7 @@
                 </tr>
             <?php endforeach; ?>
                 <tr>
-                    <td colspan="7" style="text-align: center; font-size: 1.5em">
+                    <td colspan="8" style="text-align: center; font-size: 1.5em">
                     	Total Hours Worked for this Period: 
                     	<b><?php echo $total_worked?></b>. Accredited to self: <b><?php echo $total_accredited?></b>
                     </td>
@@ -91,6 +94,7 @@
                 <th>Description</th>
                 <th>Who did the work?</th>
                 <th>Work credited to</th>
+                <th>Household</th>
                 <th>Hours</th>
                 <th>Actions</th>
             </tr>
@@ -103,6 +107,7 @@
                     <td><?php echo $wp->description?>
                     <td><?php echo $wp->getUser()->getFullName()?></td>
                     <td><?php echo $wp->getAccredited() ? $wp->getAccredited()->getFullName() : ""?></td>
+                    <td>#<?php echo $wp->getHousehold()->streetnumber?></td>
                     <td><?php echo $wp->hours?>
                     </td>
           <td>
@@ -114,7 +119,7 @@
                 </tr>
             <?php endforeach; ?>
                 <tr>
-                    <td colspan="7" style="text-align: center; font-size: 1.5em">
+                    <td colspan="8" style="text-align: center; font-size: 1.5em">
                       Total Hours Attributed for this Period: 
                       <b><?php echo $total_attributed?></b>.
                     </td>
