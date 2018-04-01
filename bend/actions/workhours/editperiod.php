@@ -13,6 +13,7 @@ function editperiod_GET(Web $w){
 			),
 			array(
 					array("Monthly Person Hours","text","monthly_person_hours",$period->monthly_person_hours),
+					array("Sapphs per Hour","text","sapphs_per_hour",$period->sapphs_per_hour),
 					array("Is Closed?","select", "is_closed", $period->is_closed,[["Yes", "1"], ["No","0"]]),
 			),
 	);

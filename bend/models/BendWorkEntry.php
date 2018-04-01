@@ -65,9 +65,8 @@ class BendWorkEntry extends DbObject {
     	if (empty($this->bend_household_id)) {
     		$this->setHousehold();
     	}
-    	if (empty($this->bend_workperiod_id)) {
-    		$this->setWorkperiod();
-    	}
+    	
+    	$this->setWorkperiod();
     	parent::update($force_null_values,$force_validation);
     }
 
@@ -101,7 +100,7 @@ class BendWorkEntry extends DbObject {
     	return !empty($user) && ($user->id == $this->user_id || $user->hasRole("bend_admin"));
     }
     
-    public function delete($force = false){
+    public function delete($force = true){
     	// check if workperiod is closed then deletion is forbidden
     	$wp = $this->Bend->getWorkPeriodForId($this->bend_workperiod_id);
     	if (!empty($wp)) {
